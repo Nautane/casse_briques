@@ -101,3 +101,4 @@ while True:
     clock.tick(60)
 
 print("philippe risoli")
+print("j'ai compris frère")
