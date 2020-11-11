@@ -31,24 +31,34 @@ class Balle:
         self.x, self.y = (400,400)
         self.vitesse = 8
         self.vitesse_par_angle(60)
+        self.sur_raquette = True
     
     def afficher(self):
         pygame.draw.rect(screen, BLANC, (int(self.x-RAYON_BALLE), int(self.y-RAYON_BALLE),2*RAYON_BALLE, 2*RAYON_BALLE), 0)
     
+    def rebond_raquette(self, raquette):
+        diff = raquette.x - self.x
+        longueur_totale = raquette.longueur/2 + RAYON_BALLE
+        angle = 90 + 80 * diff/longueur_totale
+        self.vitesse_par_angle(angle)
 
     def deplacer(self, raquette):
-        self.x += self.vx
-        self.y += self.vy
-        if raquette.collision_balle(self):
-            self.vy = -self.vy
-        if self.x + RAYON_BALLE > XMAX:
-            self.vx = -self.vx
-        if self.x - RAYON_BALLE < XMIN:
-            self.vx = -self.vx
-        if self.y + RAYON_BALLE > YMAX:
-            self.vy = -self.vy
-        if self.y - RAYON_BALLE < YMIN:
-            self.vy = -self.vy
+        if self.sur_raquette:
+            self.y = raquette.y - 2*RAYON_BALLE
+            self.x = raquette.x
+        else :
+            self.x += self.vx
+            self.y += self.vy
+            if raquette.collision_balle(self) and self.vy > 0:
+                self.rebond_raquette(raquette)
+            if self.x + RAYON_BALLE > XMAX:
+                self.vx = -self.vx
+            if self.x - RAYON_BALLE < XMIN:
+                self.vx = -self.vx
+            if self.y + RAYON_BALLE > YMAX:
+                self.sur_raquette = True
+            if self.y - RAYON_BALLE < YMIN:
+                self.vy = -self.vy
 
 class Raquette:
     def __init__(self):
@@ -72,24 +82,72 @@ class Raquette:
             horizontal = abs(self.x - balle.x) < self.longueur/2 + RAYON_BALLE
             return vertical and horizontal
 
+class Brique:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.vie = 1
+        self.longueur = 5 * RAYON_BALLE
+        self.largeur = 3 * RAYON_BALLE
+
+    def en_vie(self):
+        return self.vie > 0
+
+    def afficher(self):
+        pygame.draw.rect(screen,BLANC, (int(self.x-self.longueur/2), int(self.y-self.largeur/2), self.longueur, self.largeur), 0)
+
+    def collision_balle(self, balle):
+        marge = self.largeur/2 + RAYON_BALLE
+        dy = balle.y - self.y
+        touche = False
+        if balle.x >= self.x:
+            dx = balle.x - (self.x + self.longueur/2 - self.largeur/2)
+            if abs(dy) <= marge and dx <= marge:
+                touche = True
+                if dx <= abs(dy):
+                    balle.vy = -balle.vy
+                else:
+                    balle.vx = -balle.vx
+        else:
+            dx = balle.x - (self.x + self.longueur/2 - self.largeur/2)
+            if abs(dy) <= marge and -dx <= marge:
+                touche = True
+                if -dx <= abs(dy):
+                    balle.vy = -balle.vy
+                else:
+                    balle.vx = -balle.vx
+        if touche:
+            self.vie -= 1
+        return touche
+
 class Jeu:
     def __init__(self):
         self.balle = Balle()
         self.raquette = Raquette()
+        self.brique = Brique(400,100)
 
     def gestion_evenements(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT: sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    if self.balle.sur_raquette:
+                        self.balle.sur_raquette = False
+                        self.balle.vitesse_par_angle(90)
     
     def mise_a_jour(self):
         x, y = pygame.mouse.get_pos()
         self.balle.deplacer(self.raquette)
+        if self.brique.en_vie():
+            self.brique.collision_balle(self.balle)
         self.raquette.deplacer(x)
 
     def affichage(self):
         screen.fill(NOIR)
         self.balle.afficher()
         self.raquette.afficher()
+        if self.brique.en_vie():
+            self.brique.afficher()
 
 jeu = Jeu()
 
@@ -99,4 +157,3 @@ while True:
     jeu.affichage()
     pygame.display.flip()
     clock.tick(60)
-
