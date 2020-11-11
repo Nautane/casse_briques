@@ -100,5 +100,3 @@ while True:
     pygame.display.flip()
     clock.tick(60)
 
-print("philippe risoli")
-print("j'ai compris frère")
