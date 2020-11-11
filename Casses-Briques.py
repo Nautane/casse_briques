@@ -99,3 +99,5 @@ while True:
     jeu.affichage()
     pygame.display.flip()
     clock.tick(60)
+
+print("philippe risoli")
