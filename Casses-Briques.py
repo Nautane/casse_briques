@@ -1,3 +1,4 @@
+from mss import mss
 import random
 import sys
 import pygame
@@ -9,7 +10,7 @@ pygame.init()
 pygame.freetype.init()
 myfont=pygame.freetype.SysFont(None,20)
 
-width, height = 800,600
+width, height = int(mss().monitors[1]["width"]/4*3), int(mss().monitors[1]["height"]/4*3)
 screen = pygame.display.set_mode((width,height))
 pygame.display.set_caption("Ping")
 
@@ -124,7 +125,10 @@ class Jeu:
     def __init__(self):
         self.balle = Balle()
         self.raquette = Raquette()
-        self.brique = Brique(400,100)
+        self.brique_liste = []
+        for i in range(int(XMIN + 2.5*RAYON_BALLE), int(XMAX - 2.5*RAYON_BALLE), int(7.5*RAYON_BALLE)):
+            for j in range(int(YMIN + 1.5*RAYON_BALLE), int(YMAX/2 - 1.5*RAYON_BALLE), int(4.5*RAYON_BALLE)):
+                self.brique_liste.append(Brique(i + int(2.5*RAYON_BALLE),j + int(1.5*RAYON_BALLE) ))
 
     def gestion_evenements(self):
         for event in pygame.event.get():
@@ -138,16 +142,18 @@ class Jeu:
     def mise_a_jour(self):
         x, y = pygame.mouse.get_pos()
         self.balle.deplacer(self.raquette)
-        if self.brique.en_vie():
-            self.brique.collision_balle(self.balle)
+        for brique in self.brique_liste:
+            if brique.en_vie():
+                brique.collision_balle(self.balle)
         self.raquette.deplacer(x)
 
     def affichage(self):
         screen.fill(NOIR)
         self.balle.afficher()
         self.raquette.afficher()
-        if self.brique.en_vie():
-            self.brique.afficher()
+        for brique in self.brique_liste:
+            if brique.en_vie():
+                brique.afficher()
 
 jeu = Jeu()
 
