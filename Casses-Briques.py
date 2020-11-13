@@ -20,7 +20,7 @@ clock = pygame.time.Clock()
 BLANC = (255,255,255)
 NOIR = (0,0,0)
 
-NOMBRE_NIVEAUX = 2
+NOMBRE_NIVEAUX = 3
 NOMBRE_VIES = 6
 RAYON_BALLE = int(mss().monitors[1]["width"]/200)
 XMIN, YMIN = int(width/20) , int(width/20)
@@ -155,7 +155,7 @@ class Jeu:
                 if event.button == 1:
                     if self.balle.sur_raquette:
                         self.balle.sur_raquette = False
-                        self.balle.vitesse_par_angle(90)
+                        self.balle.vitesse_par_angle(60)
                     if self.en_jeu == False:
                         self.vie = NOMBRE_VIES
                         self.niveau = 1
