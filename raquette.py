@@ -1,7 +1,5 @@
 import pygame
-import pygame.freetype
-from constantes import *
-from balle import Balle
+from constantes import COULEURS, RAYON_BALLE, XMIN, XMAX, YMIN, YMAX, TICK, ARC_EN_CIEL, FPS, screen
 
 class Raquette:
     def __init__(self):

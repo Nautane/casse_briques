@@ -2,7 +2,10 @@ import sys
 import pygame
 import pygame.freetype
 import math
-from constantes import *
+from constantes import COULEURS, NOMBRE_VIES, NOMBRE_NIVEAUX, RAYON_BALLE, XMIN, XMAX, YMIN, YMAX, FPS, clock, screen, monitorwidth, width, height, myfont, jouer_son
+from balle import Balle
+from raquette import Raquette
+from niveau import Niveau
 
 class Jeu:
     def __init__(self):
@@ -21,7 +24,7 @@ class Jeu:
                 if event.button == 1:
                     if self.balle.sur_raquette:
                         self.balle.sur_raquette = False
-                        self.balle.vitesse_par_angle(90)
+                        self.balle.vitesse_par_angle(60)
                     if self.en_jeu == False:
                         self.vie = NOMBRE_VIES
                         self.niveau.en_cours = 1
@@ -36,10 +39,17 @@ class Jeu:
         prec = False
         for brique in self.niveau.brique_liste:
             if brique.en_vie():
-                if brique.collision_balle(self.balle,prec) :
-                    self.score += 1
-                    self.raquette.arc_en_ciel = True
-                    self.briques_touchees += 1
+                collision = brique.collision_balle(self.balle,prec)
+                if collision[0]:
+                    if not(prec):
+                        if brique.vie > 0:
+                            jouer_son("touche")
+                        else:
+                            jouer_son("score")
+                    if collision[0] and not(collision[1]) :
+                        self.score += 1
+                        self.raquette.arc_en_ciel = True
+                        self.briques_touchees += 1
                     prec = True
         self.raquette.deplacer(x)
         self.en_jeu = True
@@ -87,6 +97,7 @@ def afficher_murs():
 jeu = Jeu()
 
 while True:
+    jeu.niveau.en_cours = 2
     jeu.niveau.creation_niveaux()
     while jeu.vie > 0 and jeu.briques_touchees < jeu.niveau.nombre_briques:
         jeu.gestion_evenements()
@@ -96,11 +107,15 @@ while True:
         clock.tick(FPS)
     jeu.briques_touchees = 0
     jeu.niveau.en_cours += 1
+    if jeu.vie == 0: 
+        jouer_son("game_over")
+    else:
+        jouer_son("niveau_sup")
     while jeu.vie == 0 or jeu.niveau.en_cours > NOMBRE_NIVEAUX:
         jeu.raquette.arc_en_ciel = False
         jeu.gestion_evenements()
         jeu.game_over()
         pygame.display.flip()
         clock.tick(FPS)
+    jeu.vie += 1
     jeu.balle.sur_raquette = True
-

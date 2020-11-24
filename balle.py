@@ -1,7 +1,6 @@
 import pygame
-import pygame.freetype
 import math
-from constantes import *
+from constantes import COULEURS, RAYON_BALLE, XMIN, XMAX, YMIN, YMAX, FPS, screen, jouer_son
 from raquette import Raquette
 
 class Balle:
@@ -11,7 +10,7 @@ class Balle:
 
     def __init__(self):
         self.x, self.y = (400,400)
-        self.vitesse = 600/FPS
+        self.vitesse = 800/FPS
         self.vitesse_par_angle(60)
         self.sur_raquette = True
         self.loose = False
@@ -42,5 +41,6 @@ class Balle:
             if self.y + RAYON_BALLE > YMAX:
                 self.sur_raquette = True
                 self.loose = True
+                jouer_son("perte_vie")
             if self.y - RAYON_BALLE < YMIN:
                 self.vy = -self.vy
