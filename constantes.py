@@ -1,8 +1,9 @@
 import pip
 import pygame
 import pygame.freetype
-pip._internal.main(['install', "mss"])
+# pip._internal.main(['install', "mss"]) -> à éviter: cf requirements.txt
 from mss import mss
+import os
 
 pygame.init()
 
@@ -23,7 +24,15 @@ FPS = 144
 TICK = 1/FPS
 clock = pygame.time.Clock()
 
-SONS = {"touche" : "sounds\\hit5.wav", "score" : "sounds\\score.wav", "perte_vie" : "sounds\\error5.wav", "niveau_sup" : "sounds\\upgrade4.wav", "game_over" : "sounds\\fall3.wav"}
+sounds_path = os.path.join(os.path.curdir, 'sounds')
+SONS = {
+    "touche" : os.path.join(sounds_path, "hit5.wav"),
+    "score" : os.path.join(sounds_path, "score.wav"),
+    "perte_vie" : os.path.join(sounds_path, "error5.wav"),
+    "niveau_sup" : os.path.join(sounds_path, "upgrade4.wav"),
+    "game_over" : os.path.join(sounds_path, "fall3.wav"),
+}
+
 def jouer_son(nom_son):
     son = pygame.mixer.Sound(SONS[nom_son])
     son.set_volume(0.2)
