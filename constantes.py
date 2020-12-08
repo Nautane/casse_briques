@@ -35,10 +35,10 @@ SONS = {
 
 def jouer_son(nom_son):
     son = pygame.mixer.Sound(SONS[nom_son])
-    son.set_volume(0.2)
+    son.set_volume(0.1)
     son.play()
 
-COULEURS = {"BLANC" : (255,255,255),"GRIS" : (100,100,100), "ANTHRACITE" : (50,50,50), "NOIR" : (0,0,0), "ROUGE" : (255,0,0), "VERT" : (0,255,0), "BLEU" : (0,0,255), "ORANGE" : (255,255,0)}
+COULEURS = {"BLANC" : (255,255,255),"GRIS" : (100,100,100), "ANTHRACITE" : (50,50,50), "NOIR" : (0,0,0), "ROUGE" : (255,0,0), "VERT" : (0,255,0), "BLEU" : (0,0,255), "ORANGE" : (255,255,0), "CYAN" : (0,255,255)}
 
 def arc_en_ciel():
     r, g, b = 255, 0, 0
@@ -63,7 +63,7 @@ def arc_en_ciel():
 ARC_EN_CIEL = arc_en_ciel()
 
 NOMBRE_NIVEAUX = 3
-NOMBRE_VIES = 3
+NOMBRE_VIES = 5
 RAYON_BALLE = int(monitorwidth/150)
 LONGUEUR_BRIQUE = 5*RAYON_BALLE
 LARGEUR_BRIQUE = 3*RAYON_BALLE

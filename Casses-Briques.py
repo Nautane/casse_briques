@@ -24,7 +24,7 @@ class Jeu:
                 if event.button == 1:
                     if self.balle.sur_raquette:
                         self.balle.sur_raquette = False
-                        self.balle.vitesse_par_angle(60)
+                        self.balle.vitesse_par_angle(90)
                     if self.en_jeu == False:
                         self.vie = NOMBRE_VIES
                         self.niveau.en_cours = 1
@@ -50,6 +50,8 @@ class Jeu:
                         self.score += 1
                         self.raquette.arc_en_ciel = True
                         self.briques_touchees += 1
+                        if self.score % 50 == 0:
+                            self.vie +=1
                     prec = True
         self.raquette.deplacer(x)
         self.en_jeu = True
@@ -97,7 +99,7 @@ def afficher_murs():
 jeu = Jeu()
 
 while True:
-    jeu.niveau.en_cours = 2
+    jeu.niveau.en_cours = 4
     jeu.niveau.creation_niveaux()
     while jeu.vie > 0 and jeu.briques_touchees < jeu.niveau.nombre_briques:
         jeu.gestion_evenements()
@@ -117,5 +119,6 @@ while True:
         jeu.game_over()
         pygame.display.flip()
         clock.tick(FPS)
-    jeu.vie += 1
+    if jeu.vie != 0:
+        jeu.vie += 1
     jeu.balle.sur_raquette = True

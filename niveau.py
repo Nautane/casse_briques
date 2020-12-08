@@ -14,38 +14,49 @@ class Niveau:
         if self.en_cours == 1:
             for i in range(XMIN + 5*LONGUEUR_BRIQUE, XMIN + 6*LONGUEUR_BRIQUE, LONGUEUR_BRIQUE):
                 for j in range(YMIN + 5*LARGEUR_BRIQUE, YMAX - 5*LARGEUR_BRIQUE, LARGEUR_BRIQUE):
-                    self.brique_liste.append(Brique_indestructible(i + LONGUEUR_BRIQUE/2, j, 1, COULEURS["ANTHRACITE"]))
+                    self.brique_liste.append(Brique(i + LONGUEUR_BRIQUE/2, j))
             for i in range(XMIN + 16*LONGUEUR_BRIQUE, XMIN + 17*LONGUEUR_BRIQUE, LONGUEUR_BRIQUE):
                 for j in range(YMIN + 5*LARGEUR_BRIQUE, YMAX - 5*LARGEUR_BRIQUE, LARGEUR_BRIQUE):
-                    self.brique_liste.append(Brique_indestructible(i + LONGUEUR_BRIQUE/2, j, 1, COULEURS["ANTHRACITE"]))
+                    self.brique_liste.append(Brique(i + LONGUEUR_BRIQUE/2, j))
             for i in range(XMIN + 5*LONGUEUR_BRIQUE, XMAX - 7*LONGUEUR_BRIQUE, LONGUEUR_BRIQUE):
                 for j in range(YMIN + 5*LARGEUR_BRIQUE, YMIN + 6*LARGEUR_BRIQUE, LARGEUR_BRIQUE):
-                    self.brique_liste.append(Brique_indestructible(i + LONGUEUR_BRIQUE/2, j, 1, COULEURS["ANTHRACITE"]))
-            for i in range(XMIN, XMAX-LONGUEUR_BRIQUE, LONGUEUR_BRIQUE):
-                for j in range(YMIN + 17*LARGEUR_BRIQUE, YMIN + 18*LARGEUR_BRIQUE, LARGEUR_BRIQUE):
-                    if not(XMIN + 5*LONGUEUR_BRIQUE < i < XMAX - 8*LONGUEUR_BRIQUE):
-                        self.brique_liste.append(Brique_indestructible(i + LONGUEUR_BRIQUE/2, j, 1, COULEURS["ANTHRACITE"]))
-            for i in range(XMIN + 6*LONGUEUR_BRIQUE, XMIN + 16*LONGUEUR_BRIQUE, LONGUEUR_BRIQUE*2):
-                for j in range(YMIN + 6*LARGEUR_BRIQUE, YMAX - 5*LARGEUR_BRIQUE, LARGEUR_BRIQUE*2):
                     self.brique_liste.append(Brique(i + LONGUEUR_BRIQUE/2, j))
+            for i in range(XMIN + 5*LONGUEUR_BRIQUE, XMAX - 7*LONGUEUR_BRIQUE, LONGUEUR_BRIQUE):
+                for j in range(YMIN + 17*LARGEUR_BRIQUE, YMIN + 18*LARGEUR_BRIQUE, LARGEUR_BRIQUE):
+                    self.brique_liste.append(Brique(i + LONGUEUR_BRIQUE/2, j))
+            for i in range(XMIN + 6*LONGUEUR_BRIQUE, XMIN + 16*LONGUEUR_BRIQUE, LONGUEUR_BRIQUE*2):
+                for j in range(YMIN + 6*LARGEUR_BRIQUE, YMAX - 6*LARGEUR_BRIQUE, LARGEUR_BRIQUE*2):
+                    self.brique_liste.append(Brique(i + LONGUEUR_BRIQUE, j+LARGEUR_BRIQUE, 2, COULEURS["VERT"]))
         elif self.en_cours == 2:
-            for i in range(int(XMIN + LONGUEUR_BRIQUE*3), int(XMAX - LONGUEUR_BRIQUE*4), LONGUEUR_BRIQUE):
-                for j in range(int(YMIN + LARGEUR_BRIQUE*3), int(YMAX / 3 * 2), LARGEUR_BRIQUE):
-                    if XMIN + LONGUEUR_BRIQUE *8 < i < XMAX - LONGUEUR_BRIQUE*10 and YMIN + LARGEUR_BRIQUE*6 < j < YMAX - LARGEUR_BRIQUE*12:
-                        self.brique_liste.append(Brique(i + LONGUEUR_BRIQUE/2  + LARGEUR_BRIQUE/2, j, 3, COULEURS["VERT"]))
-                    elif XMIN + LONGUEUR_BRIQUE *4 < i < XMAX - LONGUEUR_BRIQUE*6 and YMIN + LARGEUR_BRIQUE*4 < j < YMAX - LARGEUR_BRIQUE*10:
-                        self.brique_liste.append(Brique(i + LONGUEUR_BRIQUE/2  + LARGEUR_BRIQUE/2, j, 2, COULEURS["BLEU"]))
-                    else:
-                        self.brique_liste.append(Brique(i + LONGUEUR_BRIQUE/2  + LARGEUR_BRIQUE/2, j))
+            inc = 0
+            for i in range(XMIN + int(LONGUEUR_BRIQUE*3/2), XMAX, LONGUEUR_BRIQUE*2):
+                for j in range(YMIN + int(LARGEUR_BRIQUE*3/2), int(YMAX / 3 * 2), LARGEUR_BRIQUE):
+                    if inc % 2 == 1:
+                        self.brique_liste.append(Brique_indestructible(i  , j, 1, COULEURS["ANTHRACITE"]))
+                    elif inc < 1 :
+                        self.brique_liste.append(Brique(i  , j))
+                    elif inc < 3 :
+                        self.brique_liste.append(Brique(i  , j, 2, COULEURS["CYAN"]))
+                    elif inc < 5 :
+                        self.brique_liste.append(Brique(i  , j, 3, COULEURS["BLEU"]))
+                    elif inc < 7 :
+                        self.brique_liste.append(Brique(i  , j, 3, COULEURS["BLEU"]))
+                    elif inc < 9 :
+                        self.brique_liste.append(Brique(i  , j, 2, COULEURS["CYAN"]))
+                    elif inc < 11 :
+                        self.brique_liste.append(Brique(i  , j))
+                inc += 1
         elif self.en_cours == 3 : 
             for i in range(int(XMIN + LONGUEUR_BRIQUE/2), int(XMAX - LONGUEUR_BRIQUE / 2), 2*LONGUEUR_BRIQUE):
                 for j in range(int(YMIN + LARGEUR_BRIQUE/2), int(YMAX / 2), 2*LARGEUR_BRIQUE):
                     self.brique_liste.append(Brique(i , j + int(LARGEUR_BRIQUE / 2)))
+        elif self.en_cours == 4 : 
+            self.brique_liste.append(Brique(XMAX/2 , YMAX/2))
+            self.brique_liste.append(Brique(XMAX , YMAX))
         self.nombre_briques = 0
         for brique in self.brique_liste:
             if brique.type_de_brique() != "Brique_indestructible":
                     self.nombre_briques += 1
-        #self.nombre_briques = 1
     def afficher(self):
         for brique in self.brique_liste:
             brique.afficher()
