@@ -17,7 +17,6 @@ class Balle:
     
     def afficher(self):
         pygame.draw.rect(screen, COULEURS["BLANC"], (int(self.x-RAYON_BALLE), int(self.y-RAYON_BALLE),2*RAYON_BALLE, 2*RAYON_BALLE))
-        #pygame.draw.circle(screen, COULEURS["BLANC"], (int(self.x), int(self.y)),RAYON_BALLE)
     
     def rebond_raquette(self, raquette):
         diff = raquette.x - self.x

@@ -1,7 +1,6 @@
 import pip
 import pygame
 import pygame.freetype
-# pip._internal.main(['install', "mss"]) -> à éviter: cf requirements.txt
 from mss import mss
 import os
 
@@ -13,10 +12,8 @@ pygame.mixer.init()
 
 myfont=pygame.freetype.SysFont("arialblack",20)
 
-#monitorwidth, monitorheight = 1280, 720
 monitorwidth, monitorheight =mss().monitors[1]["width"], mss().monitors[1]["height"]
 width, height = int(monitorwidth/5*4), int(monitorheight/5*4)
-#width, height = int(monitorwidth), int(monitorheight)
 screen = pygame.display.set_mode((width,height))
 pygame.display.set_caption("Ping")
 
