@@ -11,6 +11,8 @@ class Brique:
         self.x = x
         self.origy = y
         self.y = y
+        self.precdx = 0
+        self.precdy = 0
         self.vie = vies
         self.vies_max = vies
         self.couleur = couleur
@@ -61,7 +63,7 @@ class Brique:
                 touche = True
                 self.touchee = True
                 if not(prec):
-                    if dx < abs(dy):
+                    if self.precdx < abs(self.precdy):
                         balle.vy = -balle.vy
                     else:
                         balle.vx = -balle.vx
@@ -71,10 +73,12 @@ class Brique:
                 touche = True
                 self.touchee = True
                 if not(prec):
-                    if -dx < abs(dy):
+                    if -self.precdx < abs(self.precdy):
                         balle.vy = -balle.vy
                     else:
                         balle.vx = -balle.vx
+        self.precdy = dy
+        self.precdx = dx
         if touche :
             self.vie -= 1
         return touche, self.en_vie()
@@ -83,7 +87,7 @@ class Brique:
         return "Brique"
 
     def __str__(self):
-        return "Brique x: "+str(self.x)+" y: "+str(self.y)
+        return "Brique x: " + str(self.x) + " y: " + str(self.y)
 
 class Brique_indestructible(Brique):
     def en_vie(self):
@@ -99,7 +103,7 @@ class Brique_indestructible(Brique):
                 touche = True
                 self.touchee = True
                 if not(prec):
-                    if dx < abs(dy):
+                    if self.precdx < abs(self.precdy):
                         balle.vy = -balle.vy
                     else:
                         balle.vx = -balle.vx
@@ -109,10 +113,12 @@ class Brique_indestructible(Brique):
                 touche = True
                 self.touchee = True
                 if not(prec):
-                    if -dx < abs(dy):
+                    if -self.precdx < abs(self.precdy):
                         balle.vy = -balle.vy
                     else:
                         balle.vx = -balle.vx
+        self.precdy = dy
+        self.precdx = dx
         return touche, self.en_vie()
 
     def afficher(self):

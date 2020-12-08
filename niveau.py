@@ -30,29 +30,28 @@ class Niveau:
         elif self.en_cours == 2:
             inc = 0
             for i in range(XMIN + int(LONGUEUR_BRIQUE*3/2), XMAX, LONGUEUR_BRIQUE*2):
-                for j in range(YMIN + int(LARGEUR_BRIQUE*3/2), int(YMAX / 3 * 2), LARGEUR_BRIQUE):
-                    if inc % 2 == 1:
+                if inc % 2 == 1:
+                    for j in range(YMIN + int(LARGEUR_BRIQUE*3/2), int(YMAX / 3 * 2), LARGEUR_BRIQUE):
                         self.brique_liste.append(Brique_indestructible(i  , j, 1, COULEURS["ANTHRACITE"]))
-                    elif inc < 1 :
-                        self.brique_liste.append(Brique(i  , j))
-                    elif inc < 3 :
-                        self.brique_liste.append(Brique(i  , j, 2, COULEURS["CYAN"]))
-                    elif inc < 5 :
-                        self.brique_liste.append(Brique(i  , j, 3, COULEURS["BLEU"]))
-                    elif inc < 7 :
-                        self.brique_liste.append(Brique(i  , j, 3, COULEURS["BLEU"]))
-                    elif inc < 9 :
-                        self.brique_liste.append(Brique(i  , j, 2, COULEURS["CYAN"]))
-                    elif inc < 11 :
-                        self.brique_liste.append(Brique(i  , j))
+                else:    
+                    for j in range(YMIN + int(LARGEUR_BRIQUE*3/2), int(YMAX / 3 * 2), LARGEUR_BRIQUE):
+                        if inc < 1 :
+                            self.brique_liste.append(Brique(i  , j))
+                        elif inc < 3 :
+                            self.brique_liste.append(Brique(i  , j, 2, COULEURS["CYAN"]))
+                        elif inc < 5 :
+                            self.brique_liste.append(Brique(i  , j, 3, COULEURS["BLEU"]))
+                        elif inc < 7 :
+                            self.brique_liste.append(Brique(i  , j, 3, COULEURS["BLEU"]))
+                        elif inc < 9 :
+                            self.brique_liste.append(Brique(i  , j, 2, COULEURS["CYAN"]))
+                        elif inc < 11 :
+                            self.brique_liste.append(Brique(i  , j))
                 inc += 1
         elif self.en_cours == 3 : 
             for i in range(int(XMIN + LONGUEUR_BRIQUE/2), int(XMAX - LONGUEUR_BRIQUE / 2), 2*LONGUEUR_BRIQUE):
                 for j in range(int(YMIN + LARGEUR_BRIQUE/2), int(YMAX / 2), 2*LARGEUR_BRIQUE):
                     self.brique_liste.append(Brique(i , j + int(LARGEUR_BRIQUE / 2)))
-        elif self.en_cours == 4 : 
-            self.brique_liste.append(Brique(XMAX/2 , YMAX/2))
-            self.brique_liste.append(Brique(XMAX , YMAX))
         self.nombre_briques = 0
         for brique in self.brique_liste:
             if brique.type_de_brique() != "Brique_indestructible":
